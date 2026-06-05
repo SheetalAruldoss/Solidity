@@ -1,0 +1,43 @@
+// SPDX-License-Ientifier: MIT
+pragma solidity ^0.8.3;
+contract database{
+    struct student{
+        string name;
+        uint256 age;
+    }
+    mapping(uint256 => student) public students;
+    
+    event studentAdded(uint256 rollno, string name, uint256 age);
+    event studentupdates(uint256 rollno, string newName, uint256 newAge);
+    
+    //add function
+    function addstudent(
+        uint256 rollno,
+        string memory name,
+        uint256 age
+    ) public{
+        students[rollno] = student(name, age);
+        emit studentAdded(rollno, name, age);
+    }
+    //update function
+    function updateStudent(
+        uint256 rollno,
+        string memory newName,
+        uint256 newAge
+    ) public {
+        require(bytes(students[rollno].name).length != 0,
+        "student does not exist"
+        );
+        student[rollno] = student(newAge, newName);
+        emit studentupdates(rollno, newName, newAge);
+    }
+    //delete function
+    function deleteStudent(uint56 age rollno) public {
+        require(
+            bytes(students[rollno].name).length != 0,
+            "student does not exits"
+        );
+        delete students[rollno];
+        emit deleteStudent(rollno);
+    }
+}
